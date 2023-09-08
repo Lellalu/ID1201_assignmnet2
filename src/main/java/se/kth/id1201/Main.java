@@ -2,16 +2,18 @@ package se.kth.id1201;
 
 import java.util.Random;
 
-/**
- * Hello world!
- *
- */
 public class Main
 {
     public static void main( String[] args )
     {
-       //searchBenchmark();
-       duplicateBenchmark();
+        /* 
+        for(int length = 1; length < 1200000; length*=2){
+            searchBenchmark(length);
+        }
+        */
+        for(int length = 1; length < 1200000; length*=2){
+            duplicateBenchmark(length);
+        }
     }
 
     public static int[] sortedArray(int n){
@@ -104,25 +106,26 @@ public class Main
     public static boolean duplicateSearchBetter(int[] array1, int[] array2){
         int pointer_1 = 0; 
         int pointer_2 = 0;
-        if(array1[0] > array2[array2.length-1]||array1[array1.length-1] < array2[0]){
-                return false;
-            }
+        if(array1[0] > array2[array2.length-1] || array1[array1.length-1] < array2[0]){
+               return false;
+        }
         while(pointer_1<array1.length && pointer_2<array2.length){
-            if(array1[pointer_1]<array2[pointer_2]){
-                pointer_1++;
-            }
-            if(array1[pointer_1]>array2[pointer_2]){
-                pointer_2++;
-            }
             if(array1[pointer_1]==array2[pointer_2]){
                 return true;
             }
+            else if(array1[pointer_1]<array2[pointer_2]){
+                pointer_1++;
+            }
+            else{
+                pointer_2++;
+            }
+            
         }
         return false;
     }
     
 
-    public static void duplicateBenchmark(){
+    public static void duplicateBenchmark(int length){
         int[] sortedArray_1;
         int[] sortedArray_2;
         long startTime;
@@ -137,7 +140,6 @@ public class Main
         long binarySortedSumtime = 0;
         long betterSortedSumtime = 0;
 
-        int length = 10000;
         for (int i = 0; i < max_repetition; i++){
             sortedArray_1 = sortedArray(length);
             sortedArray_2 = sortedArray(length);
@@ -162,17 +164,20 @@ public class Main
         for (int i = 0; i < max_repetition; i++){
             linearSortedSumtime += linearSortedRuntime[i];
             binarySortedSumtime += binarySortedRuntime[i];
-            betterSortedSumtime += binarySortedRuntime[i];
+            betterSortedSumtime += betterSortedRuntime[i];
         }
 
+        System.out.printf("%.2f %.2f %.2f\n", (double)(linearSortedSumtime /max_repetition), (double)(binarySortedSumtime/max_repetition), (double)(betterSortedSumtime/max_repetition));
+        /*
         System.out.printf("n: %,d, linear: %.2f ns, binary: %.2f ns, better:%.2f ns\n",
                         length, 
                         (double)(linearSortedSumtime /max_repetition), 
                         (double)(binarySortedSumtime/max_repetition), 
                         (double)(betterSortedSumtime/max_repetition));
+        */
     }
 
-    public static void searchBenchmark(){
+    public static void searchBenchmark(int length){
         int[] unsortedArray;
         int[] sortedArray;
         long startTime;
@@ -186,23 +191,24 @@ public class Main
         long sortedSumTime = 0;
         long binarySortSumTime = 0;
 
-        int length = 1000000;
+        Random r = new Random();
+        int key = r.nextInt(100000000);
         for (int i = 0; i < max_repetition; i++){
             unsortedArray = unsortedArray(length);
             startTime = System.nanoTime();
-            search_unsorted(unsortedArray, 1000);
+            search_unsorted(unsortedArray, key);
             endTime = System.nanoTime();
             unsortedRunningtime[i] = endTime-startTime;
             
             sortedArray = sortedArray(length);
             startTime = System.nanoTime();
-            search_sorted(sortedArray, 1000);
+            search_sorted(sortedArray, key);
             endTime = System.nanoTime();
             sortedRunningtime[i] = endTime-startTime;
 
             sortedArray = sortedArray(length);
             startTime = System.nanoTime();
-            binary_search(sortedArray, 1000);
+            binary_search(sortedArray, key);
             endTime = System.nanoTime();
             binarySortRunningtime[i] = endTime-startTime;
         }
