@@ -167,14 +167,13 @@ public class Main
             betterSortedSumtime += betterSortedRuntime[i];
         }
 
-        System.out.printf("%.2f %.2f %.2f\n", (double)(linearSortedSumtime /max_repetition), (double)(binarySortedSumtime/max_repetition), (double)(betterSortedSumtime/max_repetition));
-        /*
+        
         System.out.printf("n: %,d, linear: %.2f ns, binary: %.2f ns, better:%.2f ns\n",
                         length, 
                         (double)(linearSortedSumtime /max_repetition), 
                         (double)(binarySortedSumtime/max_repetition), 
                         (double)(betterSortedSumtime/max_repetition));
-        */
+        
     }
 
     public static void searchBenchmark(int length){
