@@ -6,13 +6,22 @@ public class Main
 {
     public static void main( String[] args )
     {
-        /* 
-        for(int length = 1; length < 1200000; length*=2){
-            searchBenchmark(length);
+        String error_message = "Please specify the benchmark to run, example:\n"
+                             + "mvn compile exec:java -Dexec.args=\"searchBenchmark\"";
+        if(args.length != 1) {
+            System.out.println(error_message);
+            return;
         }
-        */
-        for(int length = 1; length < 1200000; length*=2){
-            duplicateBenchmark(length);
+
+        if(args[0].equals("searchBenchmark"))
+        {
+            for(int length = 1; length < 1200000; length*=2){
+                searchBenchmark(length);
+            }
+        }else if (args[0].equals("duplicateBenchmark")){
+            for(int length = 1; length < 1200000; length*=2){
+                duplicateBenchmark(length);
+            }
         }
     }
 
